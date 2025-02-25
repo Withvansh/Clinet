@@ -1,27 +1,22 @@
 import java.io.*;
-
 import java.net.*;
 
-public class myserver {
-
-public static void main(String[] args){
-
-try{
-
-ServerSocket ss=new ServerSocket(6666);
-
-Socket s=ss.accept();//establishes connection
-
-DataInputStream dis=new DataInputStream(s.getInputStream());
-
-String str=(String)dis.readUTF();
-
-System.out.println("message= "+str);
-
-ss.close();
-
-}catch(Exception e) { System.out.println(e);}
-
-}
-
+class pingserver {
+    public static void main(String args[]) {
+        try {
+            String str;
+            System.out.print("Enter the IP Address to be Ping: ");
+            BufferedReader buf1 = new BufferedReader(new InputStreamReader(System.in));
+            String ip = buf1.readLine();
+            Runtime r = Runtime.getRuntime();
+            Process p = r.exec("ping " + ip);
+            InputStream in = p.getInputStream();
+            BufferedReader buf2 = new BufferedReader(new InputStreamReader(in));
+            while ((str = buf2.readLine()) != null) {
+                System.out.println("" + str);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
