@@ -1,22 +1,35 @@
-import java.io.*;
-import java.net.*;
+import java.net.*; 
+import java.io.*; 
+class tcpdateclient 
+{ 
+public static void main (String args[]) 
+{ 
+Socket soc; 
+BufferedReader dis; 
+String sdate; 
+PrintStream ps; 
+try 
+{ 
+InetAddress ia = InetAddress.getLocalHost(); 
+if (args.length == 0) 
+soc = new Socket(InetAddress.getLocalHost(),4444); 
+else 
+soc = new Socket(InetAddress.getByName(args[0]),4444); 
+dis = new BufferedReader(new InputStreamReader(soc.getInputStream())); 
+sdate=dis.readLine(); 
+System.out.println("The date//time on server is : \\" +sdate); 
+ps = new PrintStream(soc.getOutputStream()); 
 
-class pingserver {
-    public static void main(String args[]) {
-        try {
-            String str;
-            System.out.print("Enter the IP Address to be Ping: ");
-            BufferedReader buf1 = new BufferedReader(new InputStreamReader(System.in));
-            String ip = buf1.readLine();
-            Runtime r = Runtime.getRuntime();
-            Process p = r.exec("ping " + ip);
-            InputStream in = p.getInputStream();
-            BufferedReader buf2 = new BufferedReader(new InputStreamReader(in));
-            while ((str = buf2.readLine()) != null) {
-                System.out.println("" + str);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-}
+ps.println(ia); 
+
+ps.close(); 
+
+} 
+
+catch(IOException e) 
+
+{ 
+
+System.out.println("THE EXCEPTION is :\\" + e); 
+
+}}}
